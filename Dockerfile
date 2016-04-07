@@ -2,7 +2,11 @@ FROM ubuntu:14.04
 MAINTAINER bokai
 
 RUN apt-get update
-RUN apt-get install -y vim git make bison flex libmysqlclient-dev libncurses5 libncurses5-dev mysql-server mysql-client
+RUN echo "mysql-server mysql-server/root_password password passwd" | sudo debconf-set-selections && \
+    echo "mysql-server mysql-server/root_password_again password passwd" | sudo debconf-set-selections && \
+    apt-get install -y mysql-server
+
+RUN apt-get install -y vim git make bison flex libmysqlclient-dev libncurses5 libncurses5-dev mysql-client
 
 RUN cd ~ && \
     git clone https://github.com/OpenSIPS/opensips.git -b 2.1 opensips_2_1
