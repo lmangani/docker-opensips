@@ -1,36 +1,30 @@
 FROM ubuntu:14.04
-MAINTAINER bokai
+MAINTAINER "Kyle Bai <kyle.b@inwinstack.com>"
 
-RUN apt-get update
-RUN echo "mysql-server mysql-server/root_password password passwd" | sudo debconf-set-selections && \
+USER root
+
+RUN apt-get update && \
+    echo "mysql-server mysql-server/root_password password passwd" | sudo debconf-set-selections && \
     echo "mysql-server mysql-server/root_password_again password passwd" | sudo debconf-set-selections && \
-    apt-get install -y mysql-server
+    apt-get install -y mysql-server git make bison flex libmysqlclient-dev \
+                       libncurses5 libncurses5-dev mysql-client expect
 
-RUN apt-get install -y vim git make bison flex libmysqlclient-dev libncurses5 libncurses5-dev mysql-client
+RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.1 ~/opensips_2_1 && \
+    sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_1/Makefile.conf.template && \
+    cd ~/opensips_2_1 && \
+    make all && make install
 
-RUN cd ~ && \
-    git clone https://github.com/OpenSIPS/opensips.git -b 2.1 opensips_2_1
+RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-config expect && \
+    apt-get autoremove -y && \
+    apt-get install -y libmicrohttpd10 && \
+    apt-get clean
 
-RUN sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_1/Makefile.conf.template
+COPY conf/opensipsctlrc /usr/local/sbin/opensipsdbctl
+COPY conf/opensips.cfg /usr/local/etc/opensips/opensips.cfg
 
-RUN cd ~/opensips_2_1 && make all && make install
+COPY boot_run.sh /etc/boot_run.sh
+RUN chown root.root /etc/boot_run.sh && chmod 700 /etc/boot_run.sh
 
-RUN sed -i -e 's/# SIP_DOMAIN/SIP_DOMAIN=ubuntustudio /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBENGINE=MYSQL/DBENGINE=MYSQL /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBHOST=localhost/DBHOST=localhost /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBNAME=opensips/DBNAME=opensips /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBRWUSER=opensips/DBRWUSER=opensips /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBRWPW="opensipsrw"/DBRWPW="opensipsrw" /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DBROOTUSER="root"/DBROOTUSER="root" /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# USERCOL="username"/USERCOL="username /i'  /usr/local/etc/opensips/opensipsctlrc
-RUN sed -i -e 's/# DB_PATH/DB_PATH /i'  /usr/local/etc/opensips/opensipsctlrc
+EXPOSE 5060/udp
 
-RUN chmod 777 /var
-RUN chmod 777 /var/run
-RUN chmod 755 /usr/local/etc/opensips/opensips.cfg
-
-COPY run.sh /etc/run.sh
-RUN chown root.root /etc/run.sh
-RUN chmod 700 /etc/run.sh
-
-ENTRYPOINT ["/etc/run.sh"]
+ENTRYPOINT ["/etc/boot_run.sh"]
