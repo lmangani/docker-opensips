@@ -18,7 +18,7 @@ service mysql start
 # Auto Create Database
 expect -c "
 spawn /usr/local/sbin/opensipsdbctl create \"\"
-expect \"MySQL password for root:\"
+expect \"MySQL password for root: \"
 send \"${MYSQL_PWD}\r\"
 expect \"Install presence related tables? (y/n):\"
 send \"y\r\"
@@ -26,7 +26,7 @@ expect \"Install tables for imc cpl siptrace domainpolicy carrierroute userblack
 send \"y\r\"
 
 expect \"END\"
-" &>/dev/null
+"
 
 # Configure opensips.cfg
 sed -i "s/advertised_address=.*/advertised_address=\"${ADVERTISED_IP}\"/g" /usr/local/etc/opensips/opensips.cfg

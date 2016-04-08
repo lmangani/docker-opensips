@@ -14,12 +14,12 @@ RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.1 ~/opensips_2_1 && 
     cd ~/opensips_2_1 && \
     make all && make install
 
-RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-config expect && \
+RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-config && \
     apt-get autoremove -y && \
     apt-get install -y libmicrohttpd10 && \
     apt-get clean
 
-COPY conf/opensipsctlrc /usr/local/sbin/opensipsdbctl
+COPY conf/opensipsctlrc /usr/local/etc/opensips/opensipsctlrc
 COPY conf/opensips.cfg /usr/local/etc/opensips/opensips.cfg
 
 COPY boot_run.sh /etc/boot_run.sh
