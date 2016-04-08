@@ -12,7 +12,8 @@ RUN apt-get update && \
 RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.1 ~/opensips_2_1 && \
     sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_1/Makefile.conf.template && \
     cd ~/opensips_2_1 && \
-    make all && make install
+    make all && make install && \
+    cd .. && rm -rf ~/opensips_2_1
 
 RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-config && \
     apt-get autoremove -y && \

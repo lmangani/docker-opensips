@@ -10,7 +10,7 @@ $ docker build -t imac-cloud/opensips:1.0.0 .
 ### 快速開始
 透過以下指令執行一個簡單的 OpenSIPS 服務：
 ```sh
-$ docker run --name opensips -d -p 5060:5060 \
--e ADVERTISED_IP="192.168.99.100" \
+$ docker run --name opensips -d -p 5060:5060/udp \
+-e ADVERTISED_IP="<ADVERTISED_IP>" \
 imac-cloud/opensips:1.0.0
 ```
