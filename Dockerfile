@@ -9,11 +9,10 @@ RUN apt-get update && \
     apt-get install -y mysql-server git make bison flex libmysqlclient-dev \
                        libncurses5 libncurses5-dev mysql-client expect
 
-RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.1 ~/opensips_2_1 && \
-    sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_1/Makefile.conf.template && \
-    cd ~/opensips_2_1 && \
-    make all && make install && \
-    cd .. && rm -rf ~/opensips_2_1
+RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.2 ~/opensips_2_2 && \
+    cd ~/opensips_2_2 && \
+    make all include_modules="mysql" && make install include_module="mysql" && \
+    cd .. && rm -rf ~/opensips_2_2
 
 RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-config && \
     apt-get autoremove -y && \

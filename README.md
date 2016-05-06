@@ -10,13 +10,13 @@ $ git clone https://github.com/imac-cloud/docker-opensips.git
 Then, into the directory and execute the following command：
 ```sh
 $ cd docker-opensips
-$ docker build -t imac-cloud/opensips:2.1.0 .
+$ docker build -t imac-cloud/opensips:2.2.0 .
 ```
 
 ### Quick Start
 Automated builds of the image are available on [DockerHub](https://hub.docker.com/r/imaccloud/docker-opensips/) and is the recommended method of installation.
 ```sh
-$ docker pull imaccloud/docker-opensips:2.1.0
+$ docker pull imaccloud/docker-opensips:2.2.0
 ```
 
 Now, you can manually launch the OpenSIPS container, the following command：
