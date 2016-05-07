@@ -35,4 +35,4 @@ sed -i "s/listen=.*/listen=udp:${HOST_IP}:5060/g" /usr/local/etc/opensips/opensi
 
 # Starting OpenSIPS process
 /usr/local/sbin/opensips -c
-/usr/local/sbin/opensipsctl start && tail -f /var/log/syslog.log
+/usr/local/sbin/opensipsctl start && tail -f /var/log/syslog
