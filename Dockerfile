@@ -20,7 +20,7 @@ RUN apt-get purge -y bison build-essential ca-certificates flex git m4 pkg-confi
     apt-get install -y libmicrohttpd10 && \
     apt-get clean
 
-# COPY conf/opensipsctlrc /usr/local/etc/opensips/opensipsctlrc
+COPY conf/opensipsctlrc /usr/local/etc/opensips/opensipsctlrc
 COPY conf/opensips.cfg /usr/local/etc/opensips/opensips.cfg
 
 COPY boot_run.sh /etc/boot_run.sh
