@@ -34,4 +34,5 @@ sed -i "s/alias=.*/alias=\"${ADVERTISED_IP}\"/g" /usr/local/etc/opensips/opensip
 sed -i "s/listen=.*/listen=udp:${HOST_IP}:5060/g" /usr/local/etc/opensips/opensips.cfg
 
 # Starting OpenSIPS process
+/usr/local/sbin/opensips -c
 /usr/local/sbin/opensipsctl start
