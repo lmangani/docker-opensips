@@ -1,4 +1,4 @@
-FROM FROM debian:jessie
+FROM debian:jessie
 MAINTAINER "Kyle Bai <kyle.b@inwinstack.com>"
 MAINTAINER "Lorenzo Mangani <lorenzo.mangani@gmail.com>"
 
