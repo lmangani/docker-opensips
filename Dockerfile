@@ -7,7 +7,7 @@ RUN apt-get update && \
     echo "mysql-server mysql-server/root_password password passwd" | sudo debconf-set-selections && \
     echo "mysql-server mysql-server/root_password_again password passwd" | sudo debconf-set-selections && \
     apt-get install -y mysql-server git make bison flex libmysqlclient-dev \
-                       libncurses5 libncurses5-dev mysql-client expect
+                       libncurses5 libncurses5-dev mysql-client expect rsyslog
 
 RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.2 ~/opensips_2_2 && \
     sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_2/Makefile.conf.template && \
