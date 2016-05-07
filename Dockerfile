@@ -10,7 +10,7 @@ RUN apt-get update && \
                        libncurses5 libncurses5-dev mysql-client expect
 
 RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.2 ~/opensips_2_2 && \
-    # sed -i 's/db_http db_mysql db_oracle/db_http db_mysql/g' ~/opensips_2_2/Makefile.conf.template && \
+    sed -i 's/db_http db_mysql db_oracle/db_http db_oracle/g' ~/opensips_2_2/Makefile.conf.template && \
     cd ~/opensips_2_2 && \
     make all && make prefix=/usr/local install && \
     cd .. && rm -rf ~/opensips_2_2
