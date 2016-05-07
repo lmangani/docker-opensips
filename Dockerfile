@@ -4,10 +4,10 @@ MAINTAINER "Lorenzo Mangani <lorenzo.mangani@gmail.com>"
 
 USER root
 
-RUN apt-get update && \
+RUN apt-get update && apt-get install -y sudo git make bison flex && \
     echo "mysql-server mysql-server/root_password password passwd" | sudo debconf-set-selections && \
     echo "mysql-server mysql-server/root_password_again password passwd" | sudo debconf-set-selections && \
-    apt-get install -y mysql-server git make bison flex libmysqlclient-dev \
+    apt-get install -y mysql-server libmysqlclient-dev \
                        libncurses5 libncurses5-dev mysql-client expect
 
 RUN git clone https://github.com/OpenSIPS/opensips.git -b 2.2 ~/opensips_2_2 && \
